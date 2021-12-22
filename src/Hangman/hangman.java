@@ -12,6 +12,8 @@ public class hangman {
         words.add("kotlin");
         words.add("javascript");
         words.add("python");
+
+        String alphabet = "qwertyuiopasdfghjklzxcvbnm";
         var random = new SecureRandom();
         String word = words.get(random.nextInt(words.size()));
         char[] filler = new char[word.length()];
@@ -29,26 +31,39 @@ public class hangman {
         while (life != 0) {
             System.out.println(filler);
             System.out.print("Input a letter: > ");
-            char letter = scanner.nextLine().charAt(0);
+            String answer = scanner.nextLine();
+            if (answer.length() > 1){
+                System.out.println("You should input a single letter.");
+                continue;
+            }
+            char letter = answer.charAt(0);
+            if(!alphabet.contains(Character.toString(letter))){
+                System.out.println("Please enter a lowercase English letter.");
+                continue;
+            }
             if (word.contains(letter + "")) {
+
                 for (j = 0; j < word.length(); j++) {
                     if (filler[j] == letter) {
-                        System.out.println("No improvements");
-                        life--;
+                        System.out.println("You're already quessed this letter");
+                        break;
                     }
                     if (word.charAt(j) == letter) {
                         filler[j] = letter;
                     }
                 }
-            } else {
+            }
+            else {
                 System.out.println("That letter doesn't appear in the word");
                 life--;
             }
-            if (word.equals(String.valueOf(filler))) {
-                System.out.println("You quessed the word!");
-                System.out.println("You survived!");
-                life = 0;
+
+                if (word.equals(String.valueOf(filler))) {
+                    System.out.println("You quessed the word!");
+                    System.out.println("You survived!");
+                    life = 0;
+            }
+
             }
         }
     }
-}
