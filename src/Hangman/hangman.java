@@ -12,33 +12,42 @@ public class hangman {
         words.add("kotlin");
         words.add("javascript");
         words.add("python");
-        String quess = "";
         var random = new SecureRandom();
         String word = words.get(random.nextInt(words.size()));
-        if (word.equals("java")){
-            quess = "ja--";
+        char[] filler = new char[word.length()];
+        int i = 0;
+        while(i < word.length()){
+            filler[i]='-';
+            i++;
         }
-        if (word.equals("kotlin")){
-            quess = "ko----";
-        }
-        if (word.equals("javascript")){
-            quess = "ja--------";
-        }
-        if (word.equals("python")){
-            quess = "py----";
-        }
+
 
         System.out.println("HANGMAN");
-        System.out.println("Guess the word " + quess + ": >");
-
         Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
+        int life = 8;
+        int j;
+        while (life != 0){
+            System.out.println(filler);
+            System.out.print("Input a letter: > ");
+            char letter = scanner.nextLine().charAt(0);
+            if(word.contains(letter+"")) {
+                for (j = 0; j < word.length(); j++) {
+                    if (word.charAt(j) == letter) {
+                        filler[j] = letter;
+                    }
+                }
+            }
+            else{
+                System.out.println("That letter doesn't appear in the word");
+            }
+            life--;
 
-        if (name.equals(word)){
-            System.out.println("You win!");
+
+
         }
-        else {
-            System.out.println("You lost!");
-        }
+        System.out.println(filler);
+        System.out.println("""
+                Thanks for playing!
+                We'll see how well you did in the next stage""");
     }
 }
